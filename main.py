@@ -16,6 +16,7 @@ def check_balance(login, password):
 
         if response.status_code == 200:
             response_data = response.json()
+            mb.showinfo("Баланс!", f"Баланс счета {response_data["money"]}")
             return response_data["money"]
         else:
             mb.showerror("Ошибка!",f"Произошла ошибка при проверке баланса {response.status_code}")
@@ -31,7 +32,10 @@ def send_sms():
     password = "818385"
     sender = "Mariya"
     receiver = receiver_entry.get()
-    text = text_entry.get()
+    text = text_entry.get(1.0, END)
+    if len(text) > 160:
+        mb.showerror("Ошибка", f"Длина вашего соодщения {len(text)}. Она не может превышать 160 символов")
+        return
 
     balance = check_balance(user, password)
     if balance:
@@ -56,14 +60,14 @@ def send_sms():
 
 window = Tk()
 window.title("Отправка СМС")
-window.geometry("250x110")
+window.geometry("400x210")
 
-Label(text="Номер получателя: ").pack()
+Label(text="Номер получателя в формате 79*********: ").pack()
 receiver_entry = Entry()
 receiver_entry.pack()
 
 Label(text="Ввеите текст СМС").pack()
-text_entry = Entry()
+text_entry = Text(height=6, width=30)
 text_entry.pack()
 
 send_button = Button(text ="Отправить СМС", command= send_sms)

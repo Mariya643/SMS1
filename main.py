@@ -2,7 +2,7 @@ import requests
 import re
 
 def validate_phone_number(phone_number):
-    pattern = r"^\d{11}$"
+    pattern = r"^79\d{9}$"
     return bool(re.match(pattern, phone_number))
 
 user = "Mariya643"
